@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Companies</title>
+</head>
+<body>
+    <h1>Search for a Company</h1>
+    <form action="/search" method="get">
+        <input type="text" name="query" placeholder="Enter company name/code">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Matching Companies</h2>
+    <ul>
+        <li th:each="company : ${companies}">
+            <a th:href="@{/compute(companyCode=${company.code})}" th:text="${company.name}"></a>
+        </li>
+    </ul>
+</body>
+</html>
