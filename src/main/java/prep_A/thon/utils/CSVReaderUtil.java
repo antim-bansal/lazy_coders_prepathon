@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +67,28 @@ public class CSVReaderUtil {
         return company;
     }
 
-    // Method to read the entire CSV and return a list of 'company' objects
-    public List<company> readCSV(String filePath) throws IOException, CsvValidationException { // Add CsvValidationException
+    // Method to read the entire CSV and return a list of 'company' objects from a file path
+    public List<company> readCSV(String filePath) throws IOException, CsvValidationException { 
         List<company> companies = new ArrayList<>();
 
-        // Try reading the CSV file and handle exceptions if necessary
+        // Try reading the CSV file from a file path
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+            String[] nextLine;
+            reader.readNext(); // Skip the header line
+            while ((nextLine = reader.readNext()) != null) {
+                companies.add(parseCSVLine(nextLine));
+            }
+        }
+
+        return companies;
+    }
+
+    // Overloaded method to read the CSV from an InputStream (useful for reading files from resources)
+    public List<company> readCSV(InputStream inputStream) throws IOException, CsvValidationException {
+        List<company> companies = new ArrayList<>();
+
+        // Try reading the CSV file from an InputStream
+        try (CSVReader reader = new CSVReader(new InputStreamReader(inputStream))) {
             String[] nextLine;
             reader.readNext(); // Skip the header line
             while ((nextLine = reader.readNext()) != null) {
