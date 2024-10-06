@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <table>
+        <tr>
+            <th>Company Name</th>
+            <th>Country</th>
+            <th>Diversity</th>
+        </tr>
+        <tr th:each="company : ${companies}">
+            <td th:text="${company.companyName}">Company Name</td>
+            <td th:text="${company.country}">Country</td>
+            <td th:text="${company.diversity}">Diversity</td>
+        </tr>
+    </table>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

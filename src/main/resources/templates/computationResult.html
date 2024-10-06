@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Company Analysis Result</title>
+</head>
+<body>
+    <h1>Computation Result for [[${result.companyName}]]</h1>
+    <p>Number of companies in the same country: [[${result.sameCountryCompanies}]]</p>
+    <p>Number of companies with greater diversity: [[${result.diverseCompanies}]]</p>
+    <p>Yearly Growth: [[${result.yearlyGrowth}]]</p>
+    <p>Domestic Comparison: [[${result.domesticComparison}]]</p>
+    <p>Global Comparison: [[${result.globalComparison}]]</p>
+    <p>Growth Stability Analysis: [[${result.growthStabilityAnalysis}]]</p>
+    <p>Next Year Prediction: [[${result.nextYearPrediction}]]</p>
+</body>
+</html>
