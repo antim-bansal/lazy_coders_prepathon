@@ -68,9 +68,9 @@ public class CompanyService {
                         Map.Entry::getKey,
                         entry -> {
                             String year = entry.getKey();
-                            double currentValue = Double.parseDouble(entry.getValue());
+                            double currentValue = parseAmount(entry.getValue());
                             String previousYear = String.valueOf(Integer.parseInt(year) - 1);
-                            double previousValue = data.containsKey(previousYear) ? Double.parseDouble(data.get(previousYear)) : 0.0;
+                            double previousValue = data.containsKey(previousYear) ? parseAmount(data.get(previousYear)) : 0.0;
                             return String.format("%.2f", currentValue - previousValue);
                         }
                 ));
@@ -103,7 +103,7 @@ public class CompanyService {
                 Object value2 = company2Data.get(key);
     
                 if (value1 instanceof String && value2 instanceof String) {
-                    return Double.parseDouble((String) value1) > Double.parseDouble((String) value2);
+                    return parseAmount((String) value1) > parseAmount((String) value2);
                 } else if (value1 instanceof Double && value2 instanceof Double) {
                     return (Double) value1 > (Double) value2;
                 } else {
@@ -111,7 +111,17 @@ public class CompanyService {
                 }
             });
     }
-    
+
+    // Method to parse amounts, handling commas and currency symbols
+    private double parseAmount(String value) {
+        try {
+            // Remove commas and currency symbols, and parse the number
+            return Double.parseDouble(value.replaceAll("[,\\$€£]", "").trim());
+        } catch (NumberFormatException e) {
+            logger.error("Error parsing amount '{}': {}", value, e.getMessage());
+            return 0.0; // Return 0 in case of error
+        }
+    }
 
     // Comment on company's growth based on revenue and expense trends
     public String commentOnCompanyGrowth(company selectedCompany) {
@@ -141,14 +151,14 @@ public class CompanyService {
 
         for (String year : data.keySet()) {
             if (previousYear != null) {
-                double previousValue = Double.parseDouble(data.get(previousYear).toString());
-                double currentValue = Double.parseDouble(data.get(year).toString());
+                double previousValue = parseAmount(data.get(previousYear).toString());
+                double currentValue = parseAmount(data.get(year).toString());
                 totalChange += (currentValue - previousValue);
                 years++;
             }
             previousYear = year;
         }
 
-        return years > 0 ? (totalChange / years) + Double.parseDouble(data.get("2024").toString()) : 0.0;
+        return years > 0 ? (totalChange / years) + parseAmount(data.get("2024").toString()) : 0.0;
     }
 }

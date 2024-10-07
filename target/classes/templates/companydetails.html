@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search Companies</title>
+    <title>Company Details</title>
 </head>
 <body>
-    <h1>Search for a Company</h1>
-    <form action="/search" method="get">
-        <input type="text" name="query" placeholder="Enter company name/code">
-        <button type="submit">Search</button>
-    </form>
+    <h1 th:text="${company.companyName}">Company Name</h1>
+    <p><strong>Country:</strong> <span th:text="${company.country}">Country</span></p>
+    <p><strong>Diversity:</strong> <span th:text="${company.diversity}">Diversity</span></p>
 
-    <h2>Matching Companies</h2>
+    <h2>Company Statistics</h2>
+
+    <p><strong>Number of companies in the same country:</strong> <span th:text="${sameCountryCount}"></span></p>
+    <p><strong>Number of companies with greater diversity in the same country:</strong> <span th:text="${greaterDiversityCount}"></span></p>
+
+    <h3>Year-by-Year Changes</h3>
+    <p><strong>Stock Price Change:</strong></p>
     <ul>
-        <li th:each="company : ${companies}">
-            <a th:href="@{/compute(companyCode=${company.code})}" th:text="${company.name}"></a>
+        <li th:each="entry : ${stockPriceChange}">
+            <span th:text="${entry.key}">Year</span>: <span th:text="${entry.value}">Change</span>
         </li>
     </ul>
+    <p><strong>Market Share Change:</strong></p>
+    <ul>
+        <li th:each="entry : ${marketShareChange}">
+            <span th:text="${entry.key}">Year</span>: <span th:text="${entry.value}">Change</span>
+        </li>
+    </ul>
+    <p><strong>Revenue Change:</strong></p>
+    <ul>
+        <li th:each="entry : ${revenueChange}">
+            <span th:text="${entry.key}">Year</span>: <span th:text="${entry.value}">Change</span>
+        </li>
+    </ul>
+    <p><strong>Expense Change:</strong></p>
+    <ul>
+        <li th:each="entry : ${expenseChange}">
+            <span th:text="${entry.key}">Year</span>: <span th:text="${entry.value}">Change</span>
+        </li>
+    </ul>
+
+    <h3>Companies with Greater Metrics</h3>
+    <p><strong>Greater Stock Price:</strong> <span th:text="${greaterMetricsCount['greaterStockPrice']}"></span></p>
+    <p><strong>Greater Market Share:</strong> <span th:text="${greaterMetricsCount['greaterMarketShare']}"></span></p>
+    <p><strong>Greater Revenue:</strong> <span th:text="${greaterMetricsCount['greaterRevenue']}"></span></p>
+    <p><strong>Greater Expense:</strong> <span th:text="${greaterMetricsCount['greaterExpense']}"></span></p>
+
+    <h3>Growth and Stability Comment</h3>
+    <p th:text="${growthComment}"></p>
+
+    <h3>Predicted Next Year Metrics</h3>
+    <p><strong>Predicted Stock Price:</strong> <span th:text="${predictedMetrics['predictedStockPrice']}"></span></p>
+    <p><strong>Predicted Revenue:</strong> <span th:text="${predictedMetrics['predictedRevenue']}"></span></p>
+    <p><strong>Predicted Expense:</strong> <span th:text="${predictedMetrics['predictedExpense']}"></span></p>
+    <p><strong>Predicted Market Share:</strong> <span th:text="${predictedMetrics['predictedMarketShare']}"></span></p>
+
+    <a href="/">Back to Home</a>
 </body>
 </html>
