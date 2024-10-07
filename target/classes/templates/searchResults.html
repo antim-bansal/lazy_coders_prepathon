@@ -12,7 +12,7 @@
             <th>Diversity</th>
         </tr>
         <tr th:each="company : ${companies}">
-            <td th:text="${company.companyName}">Company Name</td>
+            <td><a th:href="@{/companyDetails(companyName=${company.companyName})}" th:text="${company.companyName}"></a></td>
             <td th:text="${company.country}">Country</td>
             <td th:text="${company.diversity}">Diversity</td>
         </tr>
